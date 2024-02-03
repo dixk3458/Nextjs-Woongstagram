@@ -17,9 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html className={OpenSans.className} lang="en">
-      <body className="flex flex-col w-full max-w-screen-2xl mx-auto">
-        <header>
-          <Navbar/>
+      <body className="w-full max-w-screen-xl mx-auto">
+        <header className="sticky top-0 z-10 bg-blue-100 border-b">
+          <Navbar />
         </header>
         <main>{children}</main>
       </body>
