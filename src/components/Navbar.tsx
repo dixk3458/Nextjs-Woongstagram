@@ -10,6 +10,8 @@ import NewIcon from './ui/icon/NewIcon';
 import NewFillIcon from './ui/icon/NewFillIcon';
 import ColorButton from './ui/icon/ColorButton';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import Image from 'next/image';
+import Avatar from './Avatar';
 
 const menu = [
   {
@@ -31,7 +33,13 @@ const menu = [
 
 export default function Navbar() {
   const pathName = usePathname();
+
+  // 로그인된 사용자의 session 정보를 가져온다.
   const { data: session } = useSession();
+
+  // user의 유무에 따라서 Avatar를 표시해주자.
+  const user = session?.user;
+
   return (
     <div className="flex justify-between  items-center px-6">
       <Link href="/">
@@ -46,6 +54,13 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
+          {user && (
+            <li>
+              <Link href={`/user/${user.username}`}>
+                <Avatar image={user.image} />
+              </Link>
+            </li>
+          )}
           {session ? (
             <ColorButton text="Sign out" onClick={() => signOut()} />
           ) : (
