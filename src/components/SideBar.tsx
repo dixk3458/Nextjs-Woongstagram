@@ -8,18 +8,22 @@ type Props = {
 export default function SideBar({ user: { name, username, image } }: Props) {
   return (
     <>
-      <div>
-        <Avatar image={image} />
-        <p>{username}</p>
-        <p>{name}</p>
+      <div className="flex items-center">
+        {image && <Avatar image={image} />}
+        <div className="ml-2">
+          <p className="font-bold">{username}</p>
+          <p className="font-bold  text-neutral-500 leading-4">{name}</p>
+        </div>
       </div>
-      <p>
+      <p className="mt-8 text-sm text-neutral-700 font-bold ">
         <a href="https://www.notion.so/Frontend-Engineer-d484da4e05da443da11ede6879ca21ee?pvs=4">
           Resume
         </a>
         &nbsp;/ <a href="https://dev-blog-green.vercel.app/">Blog</a>
       </p>
-      <p>© 2024 Jaewoong, Built with Next</p>
+      <p className="text-sm mt-8 font-bold text-neutral-500">
+        © 2024 Jaewoong, Built with Next
+      </p>
     </>
   );
 }

@@ -20,12 +20,14 @@ export default async function HomePage() {
 
   // 로그인 한 사용자라면 통과
   return (
-    <section>
-      <div>
+    <section className="flex flex-col w-full max-w-[850px] p-4 md:flex-row">
+      <div className="flex flex-col basis-3/4">
         <FollowingBar />
         <PostList />
       </div>
-      <SideBar user={user} />
+      <div className="basis-1/4">
+        <SideBar user={user} />
+      </div>
     </section>
   );
 }

@@ -1,3 +1,3 @@
 export default function FollowingBar() {
-  return <>FollowingBar</>;
+  return <p>FollowingBar</p>;
 }
