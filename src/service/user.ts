@@ -19,6 +19,19 @@ export async function addUser({ id, name, username, email, image }: OAuthUser) {
     image: image,
     following: [],
     followers: [],
-    bookmark: [],
+    bookmarks: [],
   });
+}
+
+export async function getUserByUserId(username: string) {
+  // Sanity로부터 데이터를 받아와 서버측에 전달할것
+  return client.fetch(
+    `*[_type == "user" && username match "${username}"][0]{
+      ...,
+      "id":_id,
+      "following":following[]->{username,image},
+      "followers":followers[]->{username,image},
+      "bookmarks":bookmarks[]->_id
+    }`
+  );
 }

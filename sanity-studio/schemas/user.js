@@ -48,8 +48,8 @@ export default {
       validation: (Rule) => Rule.unique(),
     },
     {
-      title: 'Bookmark',
-      name: 'bookmark',
+      title: 'Bookmarks',
+      name: 'bookmarks',
       type: 'array',
       of: [
         {
