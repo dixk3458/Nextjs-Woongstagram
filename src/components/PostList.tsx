@@ -4,32 +4,22 @@ import { SimplePost } from '@/model/post';
 import { BounceLoader, GridLoader } from 'react-spinners';
 import useSWR from 'swr';
 import PostListCard from './PostListCard';
+import BounceSpinner from './ui/BounceSpinner';
 
 export default function PostList() {
-  // HomePage에서 받아온 사용자를 기반으로 PostList를 보여줘야한다.
-  // 사용자가 요청할때마다 데이터를 보여줘야하기에 클라이언트 컴포넌트로 만들자.
-
-  // 1. 클라이언트 측에서 사용자 세션 정보를 바탕으로 데이터 가져온다.
-  // 2. 서버는 그 아이디를 가지고 Sanity에서 데이터를 가지고 온다.
-  // 3. 서버가 클라이언트에 전달
-  // 4. UI 보여줌
-
-  const {
-    data: posts,
-    isLoading: loading,
-  } = useSWR<SimplePost[]>('/api/post');
+  const { data: posts, isLoading: loading } = useSWR<SimplePost[]>('/api/post');
 
   return (
     <section>
       {loading && (
         <div className="flex justify-center mt-32">
-          <BounceLoader color="#818cf8" />
+          <BounceSpinner color="#818cf8" />
         </div>
       )}
       {posts &&
-        posts.map(post => (
+        posts.map((post,index) => (
           <li key={post.id} className="mb-4 list-none">
-            <PostListCard post={post} />
+            <PostListCard post={post} priority={index<2}/>
           </li>
         ))}
     </section>
