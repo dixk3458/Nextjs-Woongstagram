@@ -1,7 +1,7 @@
 'use client';
 
 import { SimplePost } from '@/model/post';
-import { BounceLoader } from 'react-spinners';
+import { BounceLoader, GridLoader } from 'react-spinners';
 import useSWR from 'swr';
 import PostListCard from './PostListCard';
 
@@ -17,15 +17,18 @@ export default function PostList() {
   const {
     data: posts,
     isLoading: loading,
-    error,
   } = useSWR<SimplePost[]>('/api/post');
 
   return (
     <section>
-      {loading && <BounceLoader color="#818cf8" />}
+      {loading && (
+        <div className="flex justify-center mt-32">
+          <BounceLoader color="#818cf8" />
+        </div>
+      )}
       {posts &&
         posts.map(post => (
-          <li key={post.id}>
+          <li key={post.id} className="mb-4 list-none">
             <PostListCard post={post} />
           </li>
         ))}
