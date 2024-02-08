@@ -1,7 +1,9 @@
 'use client';
 
 import { SimplePost } from '@/model/post';
+import { BounceLoader } from 'react-spinners';
 import useSWR from 'swr';
+import PostListCard from './PostListCard';
 
 export default function PostList() {
   // HomePage에서 받아온 사용자를 기반으로 PostList를 보여줘야한다.
@@ -19,6 +21,14 @@ export default function PostList() {
   } = useSWR<SimplePost[]>('/api/post');
 
   return (
-    <ul>{posts && posts.map(post => <li key={post.id}>{post.text}</li>)}</ul>
+    <section>
+      {loading && <BounceLoader color="#818cf8" />}
+      {posts &&
+        posts.map(post => (
+          <li key={post.id}>
+            <PostListCard post={post} />
+          </li>
+        ))}
+    </section>
   );
 }
