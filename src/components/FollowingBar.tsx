@@ -34,7 +34,7 @@ export default function FollowingBar() {
   ];
 
   return (
-    <section className="overflow-auto w-full flex justify-center items-center p-4 shadow-sm shadow-neutral-300 mb-4 rounded-lg min-h-[90px] ">
+    <section className="overflow-auto w-full flex justify-center items-center p-4 shadow-sm shadow-neutral-300 mb-4 rounded-lg min-h-[90px] relative z-0">
       {loading ? (
         <PropagateLoader color="#818cf8" size={8} />
       ) : (

@@ -20,20 +20,26 @@ export default function PostDetail({ post }: Props) {
   const comments = data?.comments;
 
   return (
-    <section>
-      <div className="relative">
-        <Image src={image} alt={`Photo by ${username}`} fill sizes="650px" />
+    <section className="flex w-full h-full">
+      <div className="relative basis-3/5">
+        <Image
+          className="object-cover"
+          src={image}
+          alt={`Photo by ${username}`}
+          fill
+          sizes="650px"
+        />
       </div>
-      <div>
+      <div className="basis-2/5 flex flex-col">
         <PostUserAvatar userImage={userImage} username={username} />
-        <ul>
+        <ul className="border-t border-gray-200 h-full overflow-y-auto p-4">
           {comments &&
             comments.map(
               (
                 { username: commentUserName, image: commentUserImage, comment },
                 index
               ) => (
-                <li key={index}>
+                <li key={index} className="flex items-center mb-1">
                   <Link href={`/user/${commentUserName}`}>
                     <Avatar
                       image={commentUserImage}
@@ -41,8 +47,8 @@ export default function PostDetail({ post }: Props) {
                       highlight={username === commentUserName}
                     />
                   </Link>
-                  <div>
-                    <span>{commentUserName}</span>
+                  <div className="ml-2">
+                    <span className="font-bold mr-1">{commentUserName}</span>
                     <span>{comment}</span>
                   </div>
                 </li>

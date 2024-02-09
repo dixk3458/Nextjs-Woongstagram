@@ -23,7 +23,7 @@ export default function Avatar({
 }
 
 function getContainerStyle(size: AvatarSize, highlight: boolean): string {
-  const baseStyle = 'rounded-full flex items-center justify-center';
+  const baseStyle = 'rounded-full flex justify-center items-center';
   const highlightStyle = highlight
     ? 'bg-gradient-to-bl from-purple-300 via-indigo-500 to-purple-300'
     : '';
@@ -37,7 +37,7 @@ function getContainerSizeStyle(size: AvatarSize): string {
     case 'small':
       return 'w-10 h-10 ';
     case 'medium':
-      return 'w-[44px] h-[44px]';
+      return 'w-[40px] h-[40px]';
     case 'large':
       return 'w-[68px] h-[68px]';
   }
@@ -46,9 +46,9 @@ function getContainerSizeStyle(size: AvatarSize): string {
 function getImageSizeStyle(size: AvatarSize): string {
   switch (size) {
     case 'small':
-      return 'w-[34px] h-[34px]  p-[0.1rem]';
+      return 'w-[34px] h-[34px] p-[0.1rem]';
     case 'medium':
-      return 'w-11 h-11 p-[0.1rem]';
+      return 'w-9 h-9 p-[0.1rem]';
     case 'large':
       return 'w-16 h-16 p-[0.2rem]';
   }
