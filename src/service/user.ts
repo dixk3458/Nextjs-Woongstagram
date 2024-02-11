@@ -35,3 +35,17 @@ export async function getUserByUserId(username: string) {
     }`
   );
 }
+
+export async function searchUsers(keyword?: string) {
+  // keyword는 선택사항으로
+  // keyword에 따라서 query가 달라진다.
+  const query = keyword
+    ? `&& (name match "${keyword}*") || (username match "${keyword}*")`
+    : ``;
+
+  return client.fetch(`*[_type == "user" ${query}]{
+    ...,
+    "following": count(following),
+    "followers": count(followers),
+  }`);
+}
