@@ -10,7 +10,6 @@ type OAuthUser = {
 };
 
 export async function addUser({ id, name, username, email, image }: OAuthUser) {
-  // 서버측에서 전달받은 user데이터로 Sanity에게 요청을 하면된다.
   return client.createIfNotExists({
     _id: id,
     _type: 'user',
@@ -25,7 +24,6 @@ export async function addUser({ id, name, username, email, image }: OAuthUser) {
 }
 
 export async function getUserByUserId(username: string) {
-  // Sanity로부터 데이터를 받아와 서버측에 전달할것
   return client.fetch(
     `*[_type == "user" && username match "${username}"][0]{
       ...,

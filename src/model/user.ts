@@ -16,6 +16,7 @@ export type DetailUser = User & {
   bookmarks: string[];
 };
 
+// 검색어로 얻어온 사용자 정보
 export type ProfileUser = User & {
   following: number;
   followers: number;

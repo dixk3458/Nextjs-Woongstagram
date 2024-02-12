@@ -5,20 +5,17 @@ import { FormEvent, useState } from 'react';
 import useSWR from 'swr';
 import BounceSpinner from './ui/BounceSpinner';
 import UserCard from './UserCard';
+import useDebounce from '@/hook/useDebounce';
 
 export default function UserSearch() {
-  // keyword가 있다면 해당 유저를 가져오고
-  // 없다면 전체 유저를 가져올것이다.
-  // /api/search/jaewoong
-  // /api/search/
   const [keyword, setKeyword] = useState('');
+  const debouncedKeyword = useDebounce(keyword, 1000);
 
   const {
     data: users,
     isLoading,
     error,
-  } = useSWR<ProfileUser[]>(`/api/search/${keyword}`);
-  console.log(users);
+  } = useSWR<ProfileUser[]>(`/api/search/${debouncedKeyword}`);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
