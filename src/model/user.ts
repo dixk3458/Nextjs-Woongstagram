@@ -10,7 +10,7 @@ export type SimpleUser = Pick<AuthUser, 'username' | 'image'>;
 
 // Sanity로부터 얻어온 사용자 데이터 타입
 //하지만 following, followers,bookmark는 필요에 따라 정의했다.
-export type HomeUser = {
+export type HomeUser = AuthUser & {
   following: SimpleUser[];
   followers: SimpleUser[];
   bookmarks: string[];
