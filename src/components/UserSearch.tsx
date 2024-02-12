@@ -1,6 +1,6 @@
 'use client';
 
-import { ProfileUser } from '@/model/user';
+import { SearchUser } from '@/model/user';
 import { FormEvent, useState } from 'react';
 import useSWR from 'swr';
 import BounceSpinner from './ui/BounceSpinner';
@@ -15,7 +15,7 @@ export default function UserSearch() {
     data: users,
     isLoading,
     error,
-  } = useSWR<ProfileUser[]>(`/api/search/${debouncedKeyword}`);
+  } = useSWR<SearchUser[]>(`/api/search/${debouncedKeyword}`);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
