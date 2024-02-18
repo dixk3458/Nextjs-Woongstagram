@@ -16,12 +16,14 @@ export default function PostList() {
           <BounceSpinner color="#818cf8" />
         </div>
       )}
-      {posts &&
-        posts.map((post,index) => (
-          <li key={post.id} className="mb-4 list-none">
-            <PostListCard post={post} priority={index<2}/>
-          </li>
-        ))}
+      <ul>
+        {posts &&
+          posts.map((post, index) => (
+            <li key={post.id} className="mb-4 list-none">
+              <PostListCard post={post} priority={index < 2} />
+            </li>
+          ))}
+      </ul>
     </section>
   );
 }

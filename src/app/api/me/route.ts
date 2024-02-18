@@ -1,7 +1,7 @@
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { authOptions } from '../auth/[...nextauth]/route';
 import { getUserByUserId } from '@/service/user';
+import { authOptions } from '@/util/authOptions';
 
 export async function GET() {
   // 서버측에서 유효성 검사를 해주자.

@@ -1,4 +1,12 @@
 import UserSearch from '@/components/UserSearch';
+import { Metadata } from 'next';
+
+export const dynamic = 'force-dynamic';
+
+export const metadata: Metadata = {
+  title: 'User Search',
+  description: 'Search for user to follow',
+};
 
 export default function SearchPage() {
   // 애플리케이션 사용자의 keyword에 따라서 요청을하고
