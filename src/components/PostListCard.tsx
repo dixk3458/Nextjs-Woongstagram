@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default function PostListCard({ post, priority = false }: Props) {
-  const { userImage, username, image, likes, text, createdAt } = post;
+  const { userImage, username, image } = post;
 
   // modal을 보여줄 수 있도록 상태를 관리
   const [openModal, setOpenModal] = useState(false);

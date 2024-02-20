@@ -10,6 +10,7 @@ import BookmarkFillIcon from './ui/icon/BookmarkFillIcon';
 import { useSession } from 'next-auth/react';
 import { SimplePost } from '@/model/post';
 import { useSWRConfig } from 'swr';
+import usePosts from '@/hook/usePosts';
 
 type Props = {
   post: SimplePost;
@@ -22,18 +23,15 @@ export default function ActionBar({ post }: Props) {
   const { mutate } = useSWRConfig();
   const user = session?.user;
 
+  const { setLike } = usePosts();
+
   const liked = user ? likes.includes(user.username) : false;
   const [bookmarked, setBookmarked] = useState(false);
 
-  // 클라이언트 컴포넌트로 useSWR을 사용할 수 없다.
   const handleLiked = (like: boolean) => {
-    fetch('/api/like', {
-      method: 'PUT',
-      body: JSON.stringify({
-        postId: postId,
-        like: like,
-      }),
-    }).then(() => mutate('/api/post'));
+    if (user) {
+      setLike(postId, user.username, like);
+    }
   };
 
   return (

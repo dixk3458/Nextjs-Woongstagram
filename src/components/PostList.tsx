@@ -1,13 +1,11 @@
 'use client';
 
-import { SimplePost } from '@/model/post';
-import { BounceLoader, GridLoader } from 'react-spinners';
-import useSWR from 'swr';
 import PostListCard from './PostListCard';
 import BounceSpinner from './ui/BounceSpinner';
+import usePosts from '@/hook/usePosts';
 
 export default function PostList() {
-  const { data: posts, isLoading: loading } = useSWR<SimplePost[]>('/api/post');
+  const { posts, isLoading: loading } = usePosts();
 
   return (
     <section>
