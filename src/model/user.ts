@@ -1,5 +1,6 @@
 // 로그인한 사용자의 세션 정보에 담겨있는 데이터이다.
 export type AuthUser = {
+  userid: string;
   name: string;
   username: string;
   email: string;

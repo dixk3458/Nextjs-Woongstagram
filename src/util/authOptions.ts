@@ -32,16 +32,24 @@ export const authOptions: NextAuthOptions = {
       });
       return true;
     },
-    async session({ session }) {
+    async session({ session, token }) {
       // 세션이 있다면, user정보를 수정해주자.
       const user = session.user;
       if (user) {
         session.user = {
           ...user,
           username: user.email?.split('@')[0] || '',
+          userid: token.id as string,
         };
       }
       return session;
+    },
+
+    async jwt({ user, token }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
     },
   },
 };
