@@ -17,7 +17,7 @@ type Props = {
 };
 
 export default function ActionBar({ post }: Props) {
-  const { id: postId, likes, username, text, createdAt } = post;
+  const { likes, username, text, createdAt } = post;
   const { data: session } = useSession();
 
   const { mutate } = useSWRConfig();
@@ -30,7 +30,7 @@ export default function ActionBar({ post }: Props) {
 
   const handleLiked = (like: boolean) => {
     if (user) {
-      setLike(postId, user.username, like);
+      setLike(post, user.username, like);
     }
   };
 
