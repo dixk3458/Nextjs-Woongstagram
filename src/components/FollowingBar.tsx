@@ -1,18 +1,17 @@
 'use client';
 
-import { HomeUser } from '@/model/user';
 import Link from 'next/link';
 import { PropagateLoader } from 'react-spinners';
-import useSWR from 'swr';
 import Avatar from './Avatar';
 import ScrollableBar from './ui/ScrollableBar';
+import useMe from '@/hook/useMe';
 
 export default function FollowingBar() {
   // useSWR()로 받아오는 User의 타입을 명시해주자.
-  const { data, isLoading: loading, error } = useSWR<HomeUser>('/api/me');
+  const { user, isLoading: loading } = useMe();
 
   // const users = data?.following;
-  const users = data?.following;
+  const users = user?.following;
 
   return (
     <section className="overflow-auto w-full flex justify-center items-center p-4 shadow-sm shadow-neutral-300 mb-4 rounded-lg min-h-[90px] relative z-0">
