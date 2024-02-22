@@ -9,6 +9,7 @@ import ModalPortal from './ModalPortal';
 import PostModal from './PostModal';
 import PostDetail from './PostDetail';
 import PostUserAvatar from './PostUserAvatar';
+import usePosts from '@/hook/usePosts';
 
 type Props = {
   post: SimplePost;
@@ -16,7 +17,14 @@ type Props = {
 };
 
 export default function PostListCard({ post, priority = false }: Props) {
-  const { userImage, username, image } = post;
+  const { userImage, username, image, comments, text } = post;
+
+  const { postComment } = usePosts();
+
+  const handlePostComment = (comment: string) => {
+    // 네트워크 요청을 PostListCard에서 하지말고 커스텀 훅으로 처리해주자.
+    postComment(post, comment);
+  };
 
   // modal을 보여줄 수 있도록 상태를 관리
   const [openModal, setOpenModal] = useState(false);
@@ -32,8 +40,18 @@ export default function PostListCard({ post, priority = false }: Props) {
         priority={priority}
         onClick={() => setOpenModal(true)}
       />
-      <ActionBar post={post} />
-      <CommentForm />
+      <ActionBar post={post}>
+        <p className="mt-1">
+          <span className="text-sm font-bold mr-2">{username}</span>
+          {text}
+        </p>
+        {comments > 1 && (
+          <button onClick={() => setOpenModal(true)}>
+            <p className="font-bold text-indigo-500">{`View all ${comments} comments`}</p>
+          </button>
+        )}
+      </ActionBar>
+      <CommentForm onPostComment={comment => handlePostComment(comment)} />
       {openModal && (
         <ModalPortal>
           <PostModal onClose={() => setOpenModal(false)}>

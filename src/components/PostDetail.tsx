@@ -6,6 +6,7 @@ import ActionBar from './ActionBar';
 import CommentForm from './CommentForm';
 import Avatar from './Avatar';
 import Link from 'next/link';
+import usePosts from '@/hook/usePosts';
 
 type Props = {
   post: SimplePost;
@@ -13,6 +14,13 @@ type Props = {
 
 export default function PostDetail({ post }: Props) {
   const { id, image, username, userImage, createdAt, likes } = post;
+
+  const { postComment } = usePosts();
+
+  const handlePostComment = (comment: string) => {
+    // 네트워크 요청을 PostListCard에서 하지말고 커스텀 훅으로 처리해주자.
+    postComment(post, comment);
+  };
 
   // SimplePost에는 comments의 개수만 있지, 상세 정보가 없다.
   // id를 이용해 받아오자.
@@ -56,7 +64,7 @@ export default function PostDetail({ post }: Props) {
             )}
         </ul>
         <ActionBar post={post} />
-        <CommentForm />
+        <CommentForm onPostComment={comment => handlePostComment(comment)} />
       </div>
     </section>
   );

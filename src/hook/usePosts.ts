@@ -1,12 +1,22 @@
 import { SimplePost } from '@/model/post';
 import useSWR, { useSWRConfig } from 'swr';
 
-async function updatePost(postId: string, like: boolean) {
+async function updateLike(postId: string, like: boolean) {
   return fetch('/api/like', {
     method: 'PUT',
     body: JSON.stringify({
       postId: postId,
       like: like,
+    }),
+  }).then(res => res.json());
+}
+
+async function updateComment(postId: string, comment: string) {
+  return fetch('/api/comment', {
+    method: 'POST',
+    body: JSON.stringify({
+      postId: postId,
+      comment: comment,
     }),
   }).then(res => res.json());
 }
@@ -30,7 +40,7 @@ export default function usePosts() {
 
     const newPosts = posts?.map(p => (p.id === post.id ? newPost : p));
 
-    mutate(updatePost(post.id, like), {
+    mutate(updateLike(post.id, like), {
       optimisticData: newPosts,
       populateCache: false,
       revalidate: false,
@@ -38,5 +48,21 @@ export default function usePosts() {
     });
   };
 
-  return { posts, isLoading, error, setLike };
+  const postComment = (post: SimplePost, comment: string) => {
+    const newPost = {
+      ...post,
+      comments: post.comments + 1,
+    };
+
+    const newPosts = posts?.map(p => (p.id === post.id ? newPost : p));
+    
+    mutate(updateComment(post.id, comment), {
+      optimisticData: newPosts,
+      populateCache: false,
+      revalidate: false,
+      rollbackOnError: true,
+    });
+  };
+
+  return { posts, isLoading, error, setLike, postComment };
 }
