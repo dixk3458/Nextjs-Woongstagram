@@ -8,19 +8,20 @@ import ToggleButton from './ui/ToggleButton';
 import HeartFillIcon from './ui/icon/HeartFillIcon';
 import BookmarkFillIcon from './ui/icon/BookmarkFillIcon';
 import { useSession } from 'next-auth/react';
-import { SimplePost } from '@/model/post';
+import { Comment, SimplePost } from '@/model/post';
 import { useSWRConfig } from 'swr';
 import usePosts from '@/hook/usePosts';
 import useMe from '@/hook/useMe';
+import CommentForm from './CommentForm';
 
 type Props = {
   post: SimplePost;
-  children:React.ReactNode
+  onComment: (comment: Comment) => void;
+  children?: React.ReactNode;
 };
 
-export default function ActionBar({ post,children }: Props) {
-  const { likes, username, text, createdAt } = post;
-  const { data: session } = useSession();
+export default function ActionBar({ post, onComment, children }: Props) {
+  const { likes, createdAt } = post;
 
   const { setLike } = usePosts();
   const { user, setBookmark } = useMe();
@@ -34,6 +35,17 @@ export default function ActionBar({ post,children }: Props) {
 
   const handleBookmarked = (bookmark: boolean) => {
     user && setBookmark(post.id, bookmark);
+  };
+
+  const handleComment = (comment: string) => {
+    // 사용자 정보를 기반으로 Comment를 처리해주자.
+    // 즉 ActionBar에 전달된 onComment
+    user &&
+      onComment({
+        comment: comment,
+        username: user.username,
+        image: user.image,
+      });
   };
 
   return (
@@ -61,6 +73,7 @@ export default function ActionBar({ post,children }: Props) {
           {parseDate(createdAt)}
         </p>
       </div>
+      <CommentForm onPostComment={comment => handleComment(comment)} />
     </>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { SimplePost } from '@/model/post';
+import { Comment, SimplePost } from '@/model/post';
 import Image from 'next/image';
 import CommentForm from './CommentForm';
 import ActionBar from './ActionBar';
@@ -21,7 +21,7 @@ export default function PostListCard({ post, priority = false }: Props) {
 
   const { postComment } = usePosts();
 
-  const handlePostComment = (comment: string) => {
+  const handlePostComment = (comment: Comment) => {
     // 네트워크 요청을 PostListCard에서 하지말고 커스텀 훅으로 처리해주자.
     postComment(post, comment);
   };
@@ -40,7 +40,7 @@ export default function PostListCard({ post, priority = false }: Props) {
         priority={priority}
         onClick={() => setOpenModal(true)}
       />
-      <ActionBar post={post}>
+      <ActionBar post={post} onComment={comment => handlePostComment(comment)}>
         <p className="mt-1">
           <span className="text-sm font-bold mr-2">{username}</span>
           {text}
@@ -51,7 +51,6 @@ export default function PostListCard({ post, priority = false }: Props) {
           </button>
         )}
       </ActionBar>
-      <CommentForm onPostComment={comment => handlePostComment(comment)} />
       {openModal && (
         <ModalPortal>
           <PostModal onClose={() => setOpenModal(false)}>

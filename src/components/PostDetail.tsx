@@ -1,13 +1,10 @@
-import { FullPost, SimplePost } from '@/model/post';
+import { Comment, SimplePost } from '@/model/post';
 import Image from 'next/image';
-import useSWR from 'swr';
 import PostUserAvatar from './PostUserAvatar';
 import ActionBar from './ActionBar';
-import CommentForm from './CommentForm';
 import Avatar from './Avatar';
 import Link from 'next/link';
 import useFullPost from '@/hook/useFullPost';
-import useMe from '@/hook/useMe';
 
 type Props = {
   post: SimplePost;
@@ -19,16 +16,9 @@ export default function PostDetail({ post }: Props) {
   const { post: data, postComment } = useFullPost(id);
   const comments = data?.comments;
 
-  const { user } = useMe();
-
-  const handlePostComment = (comment: string) => {
+  const handlePostComment = (comment: Comment) => {
     // 네트워크 요청을 PostListCard에서 하지말고 커스텀 훅으로 처리해주자.
-    user &&
-      postComment({
-        comment: comment,
-        image: user.image,
-        username: user?.username,
-      });
+    postComment(comment);
   };
 
   // SimplePost에는 comments의 개수만 있지, 상세 정보가 없다.
@@ -70,8 +60,10 @@ export default function PostDetail({ post }: Props) {
               )
             )}
         </ul>
-        <ActionBar post={post} />
-        <CommentForm onPostComment={comment => handlePostComment(comment)} />
+        <ActionBar
+          post={post}
+          onComment={comment => handlePostComment(comment)}
+        />
       </div>
     </section>
   );
