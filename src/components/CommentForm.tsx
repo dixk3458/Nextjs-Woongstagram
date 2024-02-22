@@ -14,6 +14,7 @@ export default function CommentForm({ onPostComment }: Props) {
     // 따라서 처리할수있는 함수를 외부에서 받아오자.
     e.preventDefault();
     onPostComment(comment);
+    setComment('');
   };
   return (
     <form
