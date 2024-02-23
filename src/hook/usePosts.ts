@@ -1,4 +1,5 @@
 import { Comment, SimplePost } from '@/model/post';
+import { useCallback } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
 
 async function updateLike(postId: string, like: boolean) {
@@ -30,25 +31,28 @@ export default function usePosts() {
     mutate,
   } = useSWR<SimplePost[]>('/api/post');
 
-  const setLike = (post: SimplePost, username: string, like: boolean) => {
-    const newPost = {
-      ...post,
-      likes: like
-        ? [...post.likes, username]
-        : post.likes.filter(item => item !== username),
-    };
+  const setLike = useCallback(
+    (post: SimplePost, username: string, like: boolean) => {
+      const newPost = {
+        ...post,
+        likes: like
+          ? [...post.likes, username]
+          : post.likes.filter(item => item !== username),
+      };
 
-    const newPosts = posts?.map(p => (p.id === post.id ? newPost : p));
+      const newPosts = posts?.map(p => (p.id === post.id ? newPost : p));
 
-    mutate(updateLike(post.id, like), {
-      optimisticData: newPosts,
-      populateCache: false,
-      revalidate: false,
-      rollbackOnError: true,
-    });
-  };
+      mutate(updateLike(post.id, like), {
+        optimisticData: newPosts,
+        populateCache: false,
+        revalidate: false,
+        rollbackOnError: true,
+      });
+    },
+    [posts, mutate]
+  );
 
-  const postComment = (post: SimplePost, comment: Comment) => {
+  const postComment = useCallback((post: SimplePost, comment: Comment) => {
     const newPost = {
       ...post,
       comments: post.comments + 1,
@@ -62,7 +66,7 @@ export default function usePosts() {
       revalidate: false,
       rollbackOnError: true,
     });
-  };
-
+  }, [posts,mutate]
+  );
   return { posts, isLoading, error, setLike, postComment };
 }

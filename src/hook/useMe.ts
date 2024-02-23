@@ -1,4 +1,5 @@
 import { HomeUser } from '@/model/user';
+import { useCallback } from 'react';
 import useSWR from 'swr';
 
 function updateBookmark(postId: string, bookmark: boolean) {
@@ -14,7 +15,7 @@ function updateBookmark(postId: string, bookmark: boolean) {
 export default function useMe() {
   const { data: user, isLoading, error, mutate } = useSWR<HomeUser>('/api/me');
 
-  const setBookmark = (postId: string, bookmark: boolean) => {
+  const setBookmark = useCallback((postId: string, bookmark: boolean) => {
     if (!user) {
       return;
     }
@@ -31,7 +32,7 @@ export default function useMe() {
       populateCache: false,
       rollbackOnError: true,
     });
-  };
+  }, [user,mutate]);
 
   return { user, isLoading, error, setBookmark };
 }
