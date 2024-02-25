@@ -8,6 +8,7 @@ import HeartIcon from './ui/icon/HeartIcon';
 import BookmarkIconn from './ui/icon/BookmarkIcon';
 import user from '../../sanity-studio/schemas/user';
 import PostsGrid from './PostsGrid';
+import { CacheKeysContext } from '@/context/CacheKeysContext';
 
 type Props = {
   user: ProfileUser;
@@ -37,15 +38,24 @@ export default function UserPosts({ user: { username } }: Props) {
       {
         <ul className="flex justify-center uppercase">
           {tabs.map(({ icon, type }) => (
-            <li key={type} onClick={() => setQuery(type)}
-             className={`px-12 py-4 border-indigo-300 ${type === query && "font-bold border-t-2"}`}>
+            <li
+              key={type}
+              onClick={() => setQuery(type)}
+              className={`px-12 py-4 border-indigo-300 ${
+                type === query && 'font-bold border-t-2'
+              }`}
+            >
               <button className="scale-150 md:scale-100">{icon}</button>
               <span className="hidden md:inline">{type}</span>
             </li>
           ))}
         </ul>
       }
-      <PostsGrid username={username} query={query} />
+      <CacheKeysContext.Provider
+        value={{ postKey: `/api/user/${username}/${query}` }}
+      >
+        <PostsGrid />
+      </CacheKeysContext.Provider>
     </section>
   );
 }

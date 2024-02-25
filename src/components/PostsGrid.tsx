@@ -1,19 +1,9 @@
-import useSWR from 'swr';
 import BounceSpinner from './ui/BounceSpinner';
-import { SimplePost } from '@/model/post';
 import PostGridCard from './PostGridCard';
+import usePosts from '@/hook/usePosts';
 
-type Props = {
-  username: string;
-  query: string;
-};
-
-export default function PostsGrid({ username, query }: Props) {
-  const {
-    data: posts,
-    isLoading,
-    error,
-  } = useSWR<SimplePost[]>(`/api/user/${username}/${query}`);
+export default function PostsGrid() {
+  const { posts, isLoading } = usePosts();
 
   return (
     <div>

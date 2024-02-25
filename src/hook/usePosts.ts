@@ -1,3 +1,4 @@
+import { useCacheKeys } from '@/context/CacheKeysContext';
 import { Comment, SimplePost } from '@/model/post';
 import { useCallback } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
@@ -24,12 +25,15 @@ async function updateComment(postId: string, comment: string) {
 
 export default function usePosts() {
   // Posts에 대한 유용한 데이터를 제공하는 커스텀 훅
+  const cacheKeys = useCacheKeys();
+  console.log(cacheKeys);
+
   const {
     data: posts,
     isLoading,
     error,
     mutate,
-  } = useSWR<SimplePost[]>('/api/post');
+  } = useSWR<SimplePost[]>(cacheKeys.postKey);
 
   const setLike = useCallback(
     (post: SimplePost, username: string, like: boolean) => {
@@ -52,21 +56,23 @@ export default function usePosts() {
     [posts, mutate]
   );
 
-  const postComment = useCallback((post: SimplePost, comment: Comment) => {
-    const newPost = {
-      ...post,
-      comments: post.comments + 1,
-    };
+  const postComment = useCallback(
+    (post: SimplePost, comment: Comment) => {
+      const newPost = {
+        ...post,
+        comments: post.comments + 1,
+      };
 
-    const newPosts = posts?.map(p => (p.id === post.id ? newPost : p));
+      const newPosts = posts?.map(p => (p.id === post.id ? newPost : p));
 
-    mutate(updateComment(post.id, comment.comment), {
-      optimisticData: newPosts,
-      populateCache: false,
-      revalidate: false,
-      rollbackOnError: true,
-    });
-  }, [posts,mutate]
+      mutate(updateComment(post.id, comment.comment), {
+        optimisticData: newPosts,
+        populateCache: false,
+        revalidate: false,
+        rollbackOnError: true,
+      });
+    },
+    [posts, mutate]
   );
   return { posts, isLoading, error, setLike, postComment };
 }
