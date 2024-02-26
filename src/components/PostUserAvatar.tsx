@@ -1,7 +1,7 @@
 import Avatar from './Avatar';
 
 type Props = {
-  userImage: string;
+  userImage?: string;
   username: string;
 };
 
