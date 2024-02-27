@@ -26,7 +26,6 @@ async function updateComment(postId: string, comment: string) {
 export default function usePosts() {
   // Posts에 대한 유용한 데이터를 제공하는 커스텀 훅
   const cacheKeys = useCacheKeys();
-  console.log(cacheKeys);
 
   const {
     data: posts,

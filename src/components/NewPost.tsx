@@ -80,9 +80,9 @@ export default function NewPost({ user: { username, image } }: Props) {
   };
 
   return (
-    <section className="relative w-full max-w-xl flex flex-col items-center my-6">
+    <section className="w-full max-w-xl flex flex-col items-center my-6">
       {loading && (
-        <div className="absolute inset-0 z-20 flex justify-center items-center">
+        <div className="absolute inset-0 z-20 flex justify-center items-center ">
           <BounceSpinner color="#818cf8" />
         </div>
       )}
