@@ -22,6 +22,15 @@ export default function RootLayout({
 }>) {
   return (
     <html className={OpenSans.className} lang="en">
+      <head>
+        <meta property="og:title" content="Woongstagram" />
+        <meta property="og:type" content="SNS" />
+        <meta property="og:url" content="https://woongstagram.vercel.app/" />
+        <meta
+          property="og:image"
+          content="https://woongstagram.vercel.app/images/jjw.png"
+        />
+      </head>
       <body className="w-full bg-neutral-50 overflow-auto flex flex-col">
         <AuthContext>
           <header className="sticky top-0 z-10 bg-blue-100 border-b">
