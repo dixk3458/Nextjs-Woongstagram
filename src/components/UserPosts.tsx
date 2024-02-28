@@ -41,7 +41,7 @@ export default function UserPosts({ user: { username } }: Props) {
             <li
               key={type}
               onClick={() => setQuery(type)}
-              className={`px-12 py-4 border-indigo-300 ${
+              className={`flex items-center px-12 py-4 border-indigo-300 ${
                 type === query && 'font-bold border-t-2'
               }`}
             >
