@@ -17,7 +17,9 @@ export default function Signin({ providers, callbackUrl }: Props) {
         <ColorButton
           key={id}
           text={`Sign in with ${name}`}
-          onClick={() => signIn(id, { callbackUrl: callbackUrl })}
+          onClick={() =>
+            signIn(id, { callbackUrl: callbackUrl }, { prompt: 'login' })
+          }
           size="big"
         />
       ))}
