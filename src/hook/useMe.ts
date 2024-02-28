@@ -55,7 +55,7 @@ export default function useMe() {
         populateCache: false,
       });
     },
-    [user, mutate]
+    [mutate]
   );
 
   return { user, isLoading, error, setBookmark, toggleFollow };
