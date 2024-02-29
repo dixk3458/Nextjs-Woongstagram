@@ -18,14 +18,17 @@ const tabs = [
   {
     type: 'post',
     icon: <PostIcon />,
+    title: 'Posts',
   },
   {
     type: 'liked',
     icon: <HeartIcon className="w-4 h-4" />,
+    title: 'Liked posts',
   },
   {
     type: 'bookmarked',
     icon: <BookmarkIconn className="w-4 h-4" />,
+    title: 'Bookmarked Posts',
   },
 ];
 
@@ -37,7 +40,7 @@ export default function UserPosts({ user: { username } }: Props) {
     <section>
       {
         <ul className="flex justify-center uppercase">
-          {tabs.map(({ icon, type }) => (
+          {tabs.map(({ icon, type, title }) => (
             <li
               key={type}
               onClick={() => setQuery(type)}
@@ -45,7 +48,9 @@ export default function UserPosts({ user: { username } }: Props) {
                 type === query && 'font-bold border-t-2'
               }`}
             >
-              <button className="scale-150 md:scale-100">{icon}</button>
+              <button className="scale-150 md:scale-100" aria-label={title}>
+                {icon}
+              </button>
               <span className="hidden md:inline">{type}</span>
             </li>
           ))}
